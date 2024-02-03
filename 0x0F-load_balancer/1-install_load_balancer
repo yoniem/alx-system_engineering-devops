@@ -11,7 +11,7 @@ apt-get -y install haproxy
 # edit config file
 server_config=\
 "
-frontend  besthor_frontend
+frontend yoniem_frontend
         bind *:80
         mode http
         default_backend yoniem_backend
