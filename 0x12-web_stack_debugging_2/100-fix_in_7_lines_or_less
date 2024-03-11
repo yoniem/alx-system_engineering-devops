@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# Modify Nginx configuration to listen on port 8080
+sed -i 's/listen 80 default_server;/listen 8080 default_server;/' /etc/nginx/sites-available/default
+sed -i 's/listen [::]:80 default_server;/listen [::]:8080 default_server;/' /etc/nginx/sites-available/default
+
+# Check if the nginx user exists, and if not, create it
+if ! id -u nginx >/dev/null 2>&1; then
+    adduser --system --no-create-home --disabled-login --group nginx
+fi
+
+# Restart Nginx
+service nginx restart
