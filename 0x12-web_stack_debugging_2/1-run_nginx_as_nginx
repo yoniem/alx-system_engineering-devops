@@ -1,16 +1,8 @@
 #!/usr/bin/env bash
-# Bash script to configure Nginx to run as nginx user and listen on port 8080
-
-# Remove existing Nginx installation
-apt-get purge nginx -y
-
-# Install Nginx
-apt-get update
-apt-get install nginx -y
-
-# Replace default Nginx configuration to run as nginx user and listen on port 8080
-sed -i 's/user www-data;/user nginx;/' /etc/nginx/nginx.conf
-sed -i 's/listen 80;/listen 8080;/g' /etc/nginx/sites-available/default
-
-# Restart Nginx service to apply changes
-service nginx restart
+# Fixes server bug
+chmod 644 /etc/nginx/nginx.conf
+sed -Ei 's/\s*#?\s*user .*/user nginx;/' /etc/nginx/nginx.conf
+sed -Ei 's/(listen (\[::\]:)?80) /\180 /' /etc/nginx/sites-enabled/default
+pkill apache2
+# restart
+su nginx -s /bin/bash -c 'service nginx restart'
